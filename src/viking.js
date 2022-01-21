@@ -51,29 +51,44 @@ class Saxon extends Soldier {
 
 // War
 class War {
-  constructor() {}
-  vikingArmy = [];
-  saxonArmy = [];
-  addViking(Viking) {
-    this.vikingArmy.push(Viking);
+  constructor() {
+  this.vikingArmy = [];
+  this.saxonArmy = [];
   }
-  addSaxon(Saxon) {
-    this.saxonArmy.push(Saxon);
+  addViking(viking) {
+    this.vikingArmy.push(viking);
+  }
+  addSaxon(saxon) {
+    this.saxonArmy.push(saxon);
   }
   vikingAttack() {
-    super.receiveDamage(damage);
-    let choosenSaxon = Math.floor(Math.random() * this.saxonArmy.length);
-    let choosenViking = Math.floor(Math.random() * this.vikingArmy.length);
-    let result = choosenSaxon.receiveDamage(choosenViking.strength);
-    if (choosenSaxon.health <= 0) {
-      this.saxonArmy = this.saxonArmy.filter((saxon) => saxon != choosenSaxon);
+    let chosenSaxon = this.saxonArmy[Math.floor(Math.random() * this.saxonArmy.length)];
+    let chosenViking = this.vikingArmy[Math.floor(Math.random() * this.vikingArmy.length)];
+    let result = chosenSaxon.receiveDamage(chosenViking.strength);
+    if (chosenSaxon.health <= 0) {
+      this.saxonArmy = this.saxonArmy.filter((saxon) => saxon !== chosenSaxon);
     }
     return result;
   }
-  saxonAttack() {}
-  showStatus() {}
+  saxonAttack() {
+    let chosenSaxon = this.saxonArmy[Math.floor(Math.random() * this.saxonArmy.length)];
+    let chosenViking = this.vikingArmy[Math.floor(Math.random() * this.vikingArmy.length)];
+    let result = chosenViking.receiveDamage(chosenSaxon.strength);
+    if (chosenViking.health <= 0) {
+      this.vikingArmy = this.vikingArmy.filter((viking) => viking !== chosenViking);
+    }
+    return result;
+  }
+  showStatus() {
+    if (this.saxonArmy.length === 0) {
+      return "Vikings have won the war of the century!"
+    } else if (this.vikingArmy.length === 0) {
+      return "Saxons have fought for their lives and survived another day..."
+    } else if (this.saxonArmy.length >= 1 && this.vikingArmy.length >= 1) {
+      return 'Vikings and Saxons are still in the thick of battle.';
+    }
+  }
 }
-
 // The following is required to make unit tests work.
 /* Environment setup. Do not modify the below code. */
 if (typeof module !== 'undefined') {
